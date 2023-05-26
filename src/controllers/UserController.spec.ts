@@ -8,7 +8,7 @@ describe('UserController', () => {
         createUser: jest.fn(),
         getAllUsers: jest.fn(),
         deleteUser: jest.fn(),
-        getUser: jest.fn()
+        getUser: jest.fn(),
     }
     
     const {createUser, getAllUsers, deleteUser} = new UserController(mockUserService as UserService);
@@ -66,21 +66,23 @@ describe('UserController', () => {
     });
 
     it('Deve deletar um usuário', function () {
-        let mockRequest = {
+        const mockRequestCreate = {
             body: {
                 name: 'Nath',
                 email: 'nath@test.com'
             }
         } as Request
-        let mockResponse = makeMockResponse()
-        createUser(mockRequest, mockResponse)
-         mockRequest = {
+        const mockResponseCreate = makeMockResponse()
+        createUser(mockRequestCreate, mockResponseCreate)
+
+        const mockRequest = {
             body: {
-                name: 'Nath',
+                name: 'Nath'
             }
         } as Request
-        mockResponse = makeMockResponse()
+        const mockResponse = makeMockResponse()
         deleteUser(mockRequest, mockResponse)
+
         expect(mockResponse.state.status).toBe(200)
         expect(mockResponse.state.json).toMatchObject({ message: 'Usuário deletado' })
     })

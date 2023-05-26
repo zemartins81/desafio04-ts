@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { UserService } from '../services/UserService'
 import {validateEmail} from "../util/validateEmail";
 
+
 export class UserController {
     userService: UserService
 
@@ -41,14 +42,9 @@ export class UserController {
     }
 
     deleteUser = (request: Request, response: Response) => {
-        const user = request.body
-        const users = this.getAllUsers(request, response)
-        console.log(users)
-        const userExists = this.userService.getUser(user.name)
-        if(!userExists){
-            return response.status(404).json({ message: 'Usuário não encontrado'})
-        }
-        this.userService.deleteUser(user.name)
+        const {name} = request.body
+
+        this.userService.deleteUser(name)
         return response.status(200).json({message: 'Usuário deletado'})
     }
 }
